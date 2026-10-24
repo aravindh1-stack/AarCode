@@ -1,11 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { CURRICULUM_MODULES } from "./curriculum_data.mjs";
 
-const SUPABASE_URL = "https://bhstxlupnawzucsxbjvl.supabase.co";
-const SERVICE_ROLE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoc3R4bHVwbmF3enVjc3hianZsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDYwOTYwNywiZXhwIjoyMTA2MTg1NjA3fQ.AtbeZyoWt_Yb9VHnuvjIwdgaW3Fg2GX3Bewyhkg7oto";
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
 
-const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
+if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) {
+  console.error("Error: Missing required Supabase environment variables.");
+  console.error("Please set SUPABASE_URL (or VITE_SUPABASE_URL) and SUPABASE_SECRET_KEY.");
+  process.exit(1);
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 
 async function main() {
   console.log("=================================================================");
